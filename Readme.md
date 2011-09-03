@@ -1,6 +1,6 @@
 # GrowlNotify
 
-This gem is based on the rp-appscript bindings to applescript
+This gem is based on the rb-appscript bindings to applescript
 
 Benefits over all other growl gems:
 
