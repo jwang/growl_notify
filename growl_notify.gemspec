@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "growl_notify"
   s.version     = GrowlNotify::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ["Scott Davis"]
+  s.email       = [""]
+  s.homepage    = "https://github.com/scottdavis/growl_notify"
+  s.summary     = %q{Growl gem for ruby based on the applescript api}
+  s.description = %q{Growl gem for ruby based on the applescript api}
 
   s.rubyforge_project = "growl_notify"
 
