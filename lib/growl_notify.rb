@@ -4,13 +4,14 @@ class GrowlNotify
   
   class << self
     include Appscript
-    
+    APPLICATIONS_DIR = "/Applications"
     attr_accessor :application_name, :default_notifications, :notifications, :icon
     @application_name = "Ruby Growl"
     @default_notifications = []
     @notifications = []
     @icon = nil
-    
+    @growl_app = "GrowlHelperApp"
+
     def config(&block)
       block.call(self)
       register
@@ -24,14 +25,13 @@ class GrowlNotify
 
     def register
       current_path = Dir.pwd
-      Dir.chdir("/Applications")
+      Dir.chdir(APPLICATIONS_DIR)
       if File.exist?("GrowlHelperApp.app")
-        app("GrowlHelperApp").register(:all_notifications => @notifications, :as_application => @application_name, :default_notifications => @default_notifications)
-      elsif File.exist?("GrowlHelperApp.app")
-        app("Growl").register(:all_notifications => @notifications, :as_application => @application_name, :default_notifications => @default_notifications)
-      else
-        raise "Growl is not installed. Please install Growl."
+        @growl_app = "GrowlHelperApp"
+      elsif File.exist?("Growl.app")
+        @growl_app = "Growl"
       end
+      app(@growl_app).register(:all_notifications => @notifications, :as_application => @application_name, :default_notifications => @default_notifications)
       Dir.chdir(current_path)
     end
 
@@ -43,44 +43,34 @@ class GrowlNotify
         defaults.merge!(:image_from_location => local_icon)
       end
 
-      current_path = Dir.pwd
-      Dir.chdir("/Applications")
-      if File.exist?("GrowlHelperApp.app")
-        app("GrowlHelperApp").notify(defaults.merge(options))
-      elsif File.exist?("GrowlHelperApp.app")
-        app("Growl").notify(defaults.merge(options))
-      else
-        raise "Growl is not installed. Please install Growl."
-      end
-      Dir.chdir(current_path)
-
+      app(@growl_app).notify(defaults.merge(options))
     end
-    
+
     def very_low(options={})
       options.merge!(:priority => -2)
       send_notification(options)
     end
-    
+
     def moderate(options={})
       options.merge!(:priority => -1)
       send_notification(options)
     end
-    
+
     def normal(options={})
       options.merge!(:priority => 0)
-      send_notification(options)      
+      send_notification(options)
     end
-    
+
     def high(options={})
       options.merge!(:priority => 1)
       send_notification(options)
     end
-    
+
     def emergency(options={})
       options.merge!(:priority => 2)
       send_notification(options)
     end
-    
+
     def sticky!(options={})
       options.merge!(:sticky => true)
       send_notification(options)
