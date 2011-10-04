@@ -1,7 +1,7 @@
 require 'appscript'
 
-class GrowlNotify
-  
+module GrowlNotify
+
   class << self
     include Appscript
     APPLICATIONS_DIR = "/Applications"
